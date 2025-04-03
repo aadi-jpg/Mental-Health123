@@ -3,20 +3,30 @@ import pandas as pd
 import google.generativeai as genai
 import os
 
-# Securely fetch API key from environment variable
-API_KEY = "AIzaSyDkjZdiR--evioaIRmO-NM4670sFhSo4zQ"
-genai.configure(api_key=API_KEY)
+# Set up the Gemini API Key (Replace with your actual API Key)
+API_KEY = "your_actual_api_key_here"  # Replace with your actual Gemini API Key
 
-# Initialize the Gemini model
-model = genai.GenerativeModel("gemini-pro")
+# Check if API Key is set
+if not API_KEY:
+    st.error("❌ Missing API Key! Please provide a valid Google Gemini API Key.")
+else:
+    # Configure Gemini AI
+    genai.configure(api_key=API_KEY)
 
-# Initialize chat history if not already
+# Initialize Gemini Model
+try:
+    model = genai.GenerativeModel("gemini-pro")
+except Exception as e:
+    st.error(f"⚠️ Error initializing the model: {e}")
+
+# Initialize chat history in session state
 if 'messages' not in st.session_state:
     st.session_state['messages'] = []
 
-st.title("Student Mental Health Rating Dashboard")
+# Streamlit App Title
+st.title("📊 Student Mental Health Rating Dashboard")
 
-# Sidebar with options
+# Sidebar options
 st.sidebar.header("Options")
 if st.sidebar.button("Clear Chat"):
     st.session_state['messages'] = []
@@ -26,67 +36,67 @@ for message in st.session_state['messages']:
     with st.chat_message(message["role"]):
         st.markdown(message["content"])
 
-# File uploader for Kaggle datasets (CSV format only)
-uploaded_file = st.file_uploader("Upload your Kaggle dataset on Student Mental Health (CSV format only)", type=["csv"])
+# File uploader for Kaggle dataset (CSV format only)
+uploaded_file = st.file_uploader("📂 Upload your Kaggle dataset on Student Mental Health (CSV format only)", type=["csv"])
 
 if uploaded_file is not None:
-    # Read the uploaded dataset
+    # Load the dataset
     data = pd.read_csv(uploaded_file)
     
-    # Display the first few rows of the dataset
+    # Display first few rows
     st.write("### Dataset Overview:")
     st.dataframe(data.head())
-    
-    # Extract a random row from the dataset
+
+    # Extract a random row
     random_row = data.sample(n=1)
     random_row_dict = random_row.to_dict(orient="records")[0]  # Convert to dictionary
-    
-    # Convert the random row to a formatted string for display
+
+    # Convert row to formatted string for prompt
     random_row_str = "\n".join([f"{key}: {value}" for key, value in random_row_dict.items()])
-    
-    # Generate a prompt for the Gemini API to analyze the data
+
+    # Create prompt for Gemini API
     prompt = f"""
-    Given the following student mental health data, provide a mental health rating (1 to 100), 
-    where 100 indicates the highest level of depression and anxiety:
+    Analyze the following student mental health data and provide a mental health rating (1 to 100),
+    where 1 indicates the lowest level of depression and anxiety, and 100 indicates the highest level:
     
     {random_row_str}
     """
-    
+
     try:
-        # Generate a response using the Gemini API
+        # Generate response from Gemini API
         response = model.generate_content(prompt)
-        bot_response = response.text if response and response.text else "Unable to generate a response."
+        bot_response = response.text.strip() if response and response.text else "⚠️ Unable to generate a response."
     except Exception as e:
-        bot_response = f"Error: {str(e)}"
-    
+        bot_response = f"⚠️ Error: {str(e)}"
+
     # Append response to chat history
     st.session_state['messages'].append({"role": "assistant", "content": bot_response})
-    
-    # Display extracted data and rating
+
+    # Display extracted data and AI-generated rating
     st.write("### Extracted Student Data:")
     st.text(random_row_str)
     
-    st.write("### Mental Health Rating:")
+    st.write("### AI Mental Health Rating:")
     st.write(bot_response)
 
-# User input for chat messages
+# Chat input box for user messages
 user_input = st.chat_input("Type your message...")
 
 if user_input:
     # Append user message to history
     st.session_state['messages'].append({"role": "user", "content": user_input})
-    
-    # Generate response using Gemini API
+
     try:
+        # Generate response using Gemini API
         response = model.generate_content(user_input)
-        bot_response = response.text if response and response.text else "I'm not sure how to respond."
+        bot_response = response.text.strip() if response and response.text else "⚠️ I'm not sure how to respond."
     except Exception as e:
-        bot_response = f"Error: {str(e)}"
-    
+        bot_response = f"⚠️ Error: {str(e)}"
+
     # Append response to chat history
     st.session_state['messages'].append({"role": "assistant", "content": bot_response})
-    
-    # Display user and bot messages
+
+    # Display user and AI messages
     with st.chat_message("user"):
         st.markdown(user_input)
     with st.chat_message("assistant"):
