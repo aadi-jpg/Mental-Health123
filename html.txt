@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Mental Health | AI-Powered Wellness Assessment</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-content">
+            <div class="logo">MINDWELL</div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#assessment">Assessment</a></li>
+                <li><a href="#resources">Resources</a></li>
+                <li><a href="#support">Support</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1>Student Mental Health Assessment</h1>
+            <p>Take the first step towards better mental well-being with our confidential AI-powered assessment</p>
+            <button class="cta-button">Start Assessment</button>
+        </div>
+    </section>
+
+    <section id="assessment" class="diagnostics-section">
+        <h2 class="section-title">Mental Health Assessment</h2>
+        <div class="assessment-grid">
+            <div class="assessment-card">
+                <h3>Stress Level</h3>
+                <p>Evaluate your current stress levels and coping mechanisms</p>
+            </div>
+            <div class="assessment-card">
+                <h3>Anxiety Check</h3>
+                <p>Assess anxiety symptoms and their impact on daily life</p>
+            </div>
+            <div class="assessment-card">
+                <h3>Mood Tracking</h3>
+                <p>Monitor your emotional patterns and well-being</p>
+            </div>
+            <div class="assessment-card">
+                <h3>Sleep Quality</h3>
+                <p>Evaluate your sleep patterns and quality</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="resources" class="services-section">
+        <h2 class="section-title">Wellness Resources</h2>
+        <div class="resource-list">
+            <div class="resource-item">
+                <h3>Self-Care Tips</h3>
+                <p>Practical strategies for maintaining mental health</p>
+            </div>
+            <div class="resource-item">
+                <h3>Study Balance</h3>
+                <p>Techniques for managing academic stress</p>
+            </div>
+            <div class="resource-item">
+                <h3>Mindfulness</h3>
+                <p>Guided exercises for stress reduction</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="support" class="contact-section">
+        <h2 class="section-title">Get Support</h2>
+        <form class="support-form">
+            <div class="form-group">
+                <input type="text" name="name" placeholder="Your Name" required>
+            </div>
+            <div class="form-group">
+                <input type="email" name="email" placeholder="Your Email" required>
+            </div>
+            <div class="form-group">
+                <select name="concern" required>
+                    <option value="">Select Your Concern</option>
+                    <option value="stress">Stress Management</option>
+                    <option value="anxiety">Anxiety</option>
+                    <option value="depression">Depression</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <textarea name="message" placeholder="Tell us how we can help" rows="5" required></textarea>
+            </div>
+            <button type="submit" class="submit-button">Request Support</button>
+        </form>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 MindWell. All rights reserved.</p>
+        <p class="disclaimer">This platform is not a substitute for professional medical advice. If you're in crisis, please contact emergency services immediately.</p>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
